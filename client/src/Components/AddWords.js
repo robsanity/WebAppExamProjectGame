@@ -12,7 +12,7 @@ function AddWords(props) {
         props.letter,
         props.inserted[i],
         props.category,
-        props.score2
+        props.score
       );
     }
   };
