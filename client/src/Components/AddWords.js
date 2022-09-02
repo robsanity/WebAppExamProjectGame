@@ -1,11 +1,8 @@
 import { useState } from "react";
 import { Table } from "react-bootstrap";
 
-
 function AddWords(props) {
   const [word, setWord] = useState("");
-  
-
 
   const everyWordRound = () => {
     for (let i = 0; i < props.inserted.length; i++) {
@@ -15,45 +12,31 @@ function AddWords(props) {
         props.letter,
         props.inserted[i],
         props.category,
-        props.score
+        props.score2
       );
     }
   };
 
   const addInserted = (word) => {
-    props.setInserted([...props.inserted,word])
+    props.setInserted([...props.inserted, word]);
+  };
+
+  const handleSubmit = () => {
+    props.Validate(props.category, word, props.letter);
+
+    if (word === "") {
+      setWord("");
     }
+    if (props.validity === false) {
+      alert("Not correct word");
+      setWord("");
+    } else {
+      addInserted(word);
+      props.getScore(props.users, props.word, props.category, props.letter);
+      setWord("");
+    }
+  };
 
-    const handleSubmit =  () => {
-      let i = 0;
-      if(word === ""){
-        setWord("");
-      }else{
-        props.Validate(props.category, word, props.letter)
-        while(props.validity == true){
-          addInserted(word);
-          props.getScore(
-            props.users,
-            props.inserted[i],
-            props.category,
-            props.letter
-          );
-          i++;
-          setWord("");
-          }
-          alert("Not correct word");
-          setWord("");
-          }
-        }
-      
-    
-    
-      
-    
-
-
-
-  
   return (
     <>
       {props.timer === 0 ? (
@@ -65,6 +48,9 @@ function AddWords(props) {
           </thead>
           <tbody>
             <button
+              id="btn7"
+              type="button"
+              class="btn btn-dark"
               onClick={() => {
                 everyWordRound();
                 props.setTimer("");
@@ -75,9 +61,10 @@ function AddWords(props) {
                 props.setInserted([]);
                 props.setMinWords(0);
                 props.setScore(0);
+                props.setOfficialScore(0);
               }}
             >
-              Send Result
+              Send Result And Play Again
             </button>
             {props.inserted.length >= props.minWords ? (
               <>
@@ -116,6 +103,7 @@ function AddWords(props) {
               props.setInserted([]);
               props.setMinWords(0);
               props.setScore(0);
+              props.setOfficialScore(0);
             }}
           >
             Play Again!
@@ -138,7 +126,9 @@ function AddWords(props) {
             class="btn btn-dark"
             type="submit"
             value="Send Word"
-            onClick={handleSubmit}
+            onClick={() => {
+              handleSubmit();
+            }}
           />
           <button
             id="btn11"
@@ -168,6 +158,6 @@ function AddWords(props) {
       )}
     </>
   );
-      }
+}
 
 export default AddWords;

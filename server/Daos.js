@@ -87,10 +87,11 @@ function getUser(email, password) {
 async function Validate(Category,Word,Letter){
   return new Promise((resolve,reject) => {
     const sql = "SELECT Word FROM Words WHERE Category = ? AND Word = ? AND Letter = ?";
-    db.all(sql,[Category,Word,Letter],(err,rows) => {
+    db.all(sql,[Category,Word,Letter],(err,row) => {
+      
       if(err) {
         reject(err);
-      } else if(!rows){
+      } else if(row.length === 0){
         resolve(false);
       }
         else {
@@ -132,6 +133,7 @@ async function Score(idUser,Word,Category,Letter){
         round2 = 0;
       }else if(row.length === 1){
       round1 = row[0];
+      round2 = 0;
       }
       else {
         round1 = row[0];

@@ -98,6 +98,7 @@ function App() {
     API.getScore(idUser,Word,Category,Letter)
     .then((response)=>{
         setScore(response + score);
+        return score;
       }).catch((error)=>{
         console.error(error);
       });
